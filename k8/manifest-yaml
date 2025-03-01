@@ -1,0 +1,46 @@
+# Deployment and Service Manifest for Harness CV App Example
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: python
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sid-harness-python-deployment
+spec:
+  selector:
+    matchLabels:
+      app: sid-harness-python
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: sid-harness-python
+    spec:
+      containers:
+        - name: sid-harness-python
+          image: {{.Values.image}}
+          ports:
+            - containerPort: 8090
+          resources:
+            limits:
+              memory: "512Mi"
+              cpu: "500m"
+            requests:
+              memory: "256Mi"
+              cpu: "250m"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: sid-harness-python-service
+spec:
+  selector:
+    app: sid-harness-python
+  ports:
+    - protocol: "TCP"
+      port: 8090
+      targetPort: 8090
+  type: LoadBalancer
