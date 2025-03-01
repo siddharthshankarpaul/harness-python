@@ -4,7 +4,7 @@ app =   Flask(__name__)
 
 @app.route('/')
 def hello_world():
-    version = os.environ("version", 0)
+    version = os.environ.get("version", 0)
     return render_template('index.html', version_no=version)
 
 if __name__ == '__main__':
