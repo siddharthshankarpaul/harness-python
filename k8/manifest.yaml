@@ -24,6 +24,9 @@ spec:
           image: {{.Values.image}}
           ports:
             - containerPort: 8090
+          env:
+            - name: version
+              value: {{.Values.version}}
           resources:
             limits:
               memory: "512Mi"
